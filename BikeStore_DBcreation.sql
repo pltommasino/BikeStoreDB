@@ -12,12 +12,12 @@
 #--write the correct path-to-files on your client system (local machine) in the LOAD DATA statements
 
 
-DROP DATABASE IF EXISTS Bike_store; #Added
+DROP DATABASE IF EXISTS BikeStoreDB; #Added
 #creating the Bike_store database
-CREATE DATABASE Bike_store;
+CREATE DATABASE BikeStoreDB;
 
 #switching to the Bike_store database
-USE Bike_store;
+USE BikeStoreDB;
 
 #creating brands table
 CREATE TABLE Brands 
@@ -47,28 +47,28 @@ State VARCHAR(5),
 Zip_code INT
 );
 
-#creating order_items table
-CREATE TABLE Order_items
-(
-Order_ID INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-Item_ID INT UNIQUE,
-Product_ID INT UNIQUE,
-Quantity INT,
-List_price FLOAT,
-Discount FLOAT
-);
-
 #creating orders table
 CREATE TABLE Orders
 (
 Order_ID INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-Customer_ID INT UNIQUE,
+Customer_ID INT,
 Order_status INT,
 Order_date DATE,
 Required_date DATE,
 Shipped_date DATE,
 Store_ID INT,
 Staff_ID INT
+);
+
+#creating order_items table
+CREATE TABLE Order_items
+(
+Order_ID INT NOT NULL,
+Item_ID INT,
+Product_ID INT,
+Quantity INT,
+List_price FLOAT,
+Discount FLOAT
 );
 
 #creating products table
@@ -98,7 +98,7 @@ Manager_ID INT
 #creating stocks table
 CREATE TABLE Stocks
 (
-Store_ID INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+Store_ID INT NOT NULL,
 Product_ID INT,
 Quantity INT
 );
@@ -134,15 +134,15 @@ INTO TABLE Customers
 FIELDS TERMINATED BY ','
 IGNORE 1 ROWS;
 
-#importing order_items data
-LOAD DATA LOCAL INFILE '/Users/pasquale/Documents/MySQL/DMDS/HW1/data/order_items.csv'
-INTO TABLE Order_items
-FIELDS TERMINATED BY ','
-IGNORE 1 ROWS;
-
 #importing orders data
 LOAD DATA LOCAL INFILE '/Users/pasquale/Documents/MySQL/DMDS/HW1/data/orders.csv'
 INTO TABLE Orders
+FIELDS TERMINATED BY ','
+IGNORE 1 ROWS;
+
+#importing order_items data
+LOAD DATA LOCAL INFILE '/Users/pasquale/Documents/MySQL/DMDS/HW1/data/order_items.csv'
+INTO TABLE Order_items
 FIELDS TERMINATED BY ','
 IGNORE 1 ROWS;
 

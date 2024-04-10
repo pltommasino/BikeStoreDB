@@ -95,3 +95,35 @@ ORDER BY CategoryCount_inProduct DESC;
 SELECT *
 FROM Categories
 WHERE Category_ID IN (3, 6, 7);
+
+#QUERY 7
+-- Average order price
+
+select round(avg(p.mean_full),2) as full_price_average
+from (select Order_ID, round(avg(List_price*Quantity),2) as mean_full
+      from Order_items
+      group by Order_ID) p;
+   
+#QUERY 8
+-- Not availabe articles
+
+select Store_ID, Product_name, Quantity
+from Stocks s join Products p on s.Product_ID = p.Product_ID
+where Quantity = 0;
+
+#QUERY 9
+-- Best-selling product
+
+select Product_name, count(*) as sold
+from Order_items o join Products p on o.Product_ID = p.Product_ID
+group by Product_name
+order by sold desc;
+
+#QUERY 10
+-- City with best customer
+
+select City, count(*) as numCust
+from Customers 
+group by City
+order by numCust desc;
+

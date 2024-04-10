@@ -12,6 +12,9 @@ LIMIT 3;
 
 
 #QUERY 2
+
+-- Take 1st query and see below
+
 -- Info 3 order that spent the most in the shop.
 SELECT * #Order_ID, Customer_ID, Store_ID, Staff_ID 
 FROM Orders
@@ -112,15 +115,12 @@ from Stocks s join Products p on s.Product_ID = p.Product_ID
 where Quantity = 0;
 
 #QUERY 9
--- Best-selling product
+-- TO DO
 
-select Product_name, count(*) as sold
-from Order_items o join Products p on o.Product_ID = p.Product_ID
-group by Product_name
-order by sold desc;
+
 
 #QUERY 10
--- City with best customer
+-- City with best customer - Se vuoi TO DO
 
 select City, count(*) as numCust
 from Customers 

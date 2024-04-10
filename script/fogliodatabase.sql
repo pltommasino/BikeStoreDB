@@ -1,16 +1,14 @@
 SHOW DATABASES;
 
-#SELECT COUNT(*) AS check_warning_row FROM BikeStoreDB.Orders
-#WHERE Shipped_date=0000-00-00;
-
-#SELECT COUNT(*) AS total_row FROM BikeStoreDB.Orders;
-
+USE BikeStoreDB;
 -- The first 3 person who spent the most in the shop
-SELECT *
-FROM Customers
-WHERE Customer_ID IN
-(
-SELECT Customer_ID
-FROM Orders
-WHERE Order_ID IN (1541, 937, 1506)
-);
+SELECT * #Order_ID, Customer_ID, Store_ID, Staff_ID 
+FROM Orders AS Tab1
+INNER JOIN (
+	SELECT Order_ID
+	FROM Order_items
+	GROUP BY Order_ID
+	ORDER BY ROUND(SUM((List_price * Quantity) - (List_price * Quantity * Discount)), 2) DESC
+	LIMIT 3
+) AS Tab2
+ON Tab1.Order_ID = Tab2.Order_ID

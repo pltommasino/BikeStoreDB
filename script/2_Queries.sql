@@ -80,3 +80,18 @@ LIMIT 3;
 SELECT Product_ID, Product_Name, Model_year, List_price
 FROM Products
 WHERE Product_ID IN (6,13,16);
+
+
+
+#QUERY 6
+-- What is the most featured category in the products?
+SELECT Category_ID, COUNT(Category_ID) AS CategoryCount_inProduct
+FROM Products
+GROUP BY Category_ID
+ORDER BY CategoryCount_inProduct DESC;
+#3,6,7 e 1
+
+#What are the category name of the most featured?
+SELECT *
+FROM Categories
+WHERE Category_ID IN (3, 6, 7);

@@ -104,55 +104,55 @@ Zip_code INT
 );
 
 #importing brands data
-LOAD DATA LOCAL INFILE '/Users/pasquale/Documents/MySQL/DMDS/HW1/data/brands.csv'
+LOAD DATA LOCAL INFILE '/Users/pasquale/Documents/MySQL/DMDS/BikeStoreDB/data/brands.csv'
 INTO TABLE Brands
 FIELDS TERMINATED BY ','
 IGNORE 1 ROWS;
 
 #importing categories data
-LOAD DATA LOCAL INFILE '/Users/pasquale/Documents/MySQL/DMDS/HW1/data/categories.csv'
+LOAD DATA LOCAL INFILE '/Users/pasquale/Documents/MySQL/DMDS/BikeStoreDB/data/categories.csv'
 INTO TABLE Categories
 FIELDS TERMINATED BY ','
 IGNORE 1 ROWS;
 
 #importing customer data
-LOAD DATA LOCAL INFILE '/Users/pasquale/Documents/MySQL/DMDS/HW1/data/customers.csv'
+LOAD DATA LOCAL INFILE '/Users/pasquale/Documents/MySQL/DMDS/BikeStoreDB/data/customers.csv'
 INTO TABLE Customers
 FIELDS TERMINATED BY ','
 IGNORE 1 ROWS;
 
 #importing orders data
-LOAD DATA LOCAL INFILE '/Users/pasquale/Documents/MySQL/DMDS/HW1/data/orders.csv'
+LOAD DATA LOCAL INFILE '/Users/pasquale/Documents/MySQL/DMDS/BikeStoreDB/data/orders.csv'
 INTO TABLE Orders
 FIELDS TERMINATED BY ','
 IGNORE 1 ROWS;
 
 #importing order_items data
-LOAD DATA LOCAL INFILE '/Users/pasquale/Documents/MySQL/DMDS/HW1/data/order_items.csv'
+LOAD DATA LOCAL INFILE '/Users/pasquale/Documents/MySQL/DMDS/BikeStoreDB/data/order_items.csv'
 INTO TABLE Order_items
 FIELDS TERMINATED BY ','
 IGNORE 1 ROWS;
 
 #importing products data
-LOAD DATA LOCAL INFILE '/Users/pasquale/Documents/MySQL/DMDS/HW1/data/products.csv'
+LOAD DATA LOCAL INFILE '/Users/pasquale/Documents/MySQL/DMDS/BikeStoreDB/data/products.csv'
 INTO TABLE Products
 FIELDS TERMINATED BY ','
 IGNORE 1 ROWS;
 
 #importing staffs data
-LOAD DATA LOCAL INFILE '/Users/pasquale/Documents/MySQL/DMDS/HW1/data/staffs.csv'
+LOAD DATA LOCAL INFILE '/Users/pasquale/Documents/MySQL/DMDS/BikeStoreDB/data/staffs.csv'
 INTO TABLE Staffs
 FIELDS TERMINATED BY ','
 IGNORE 1 ROWS;
 
 #importing stocks data
-LOAD DATA LOCAL INFILE '/Users/pasquale/Documents/MySQL/DMDS/HW1/data/stocks.csv'
+LOAD DATA LOCAL INFILE '/Users/pasquale/Documents/MySQL/DMDS/BikeStoreDB/data/stocks.csv'
 INTO TABLE Stocks
 FIELDS TERMINATED BY ','
 IGNORE 1 ROWS;
 
 #importing stores data
-LOAD DATA LOCAL INFILE '/Users/pasquale/Documents/MySQL/DMDS/HW1/data/stores.csv'
+LOAD DATA LOCAL INFILE '/Users/pasquale/Documents/MySQL/DMDS/BikeStoreDB/data/stores.csv'
 INTO TABLE Stores
 FIELDS TERMINATED BY ','
 IGNORE 1 ROWS;

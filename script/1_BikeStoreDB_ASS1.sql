@@ -56,7 +56,6 @@ Product_ID INT,
 Quantity INT,
 List_price FLOAT,
 Discount FLOAT
--- PRIMARY KEY (Order_ID, Item_ID)
 );
 
 #creating products table
@@ -88,8 +87,7 @@ CREATE TABLE BikeStoreDB.Stocks
 (
 Store_ID INT NOT NULL,
 Product_ID INT,
-Quantity INT,
-PRIMARY KEY (Store_ID, Product_ID)
+Quantity INT
 );
 
 #creating stores table

@@ -1,3 +1,4 @@
+-- CONSTRAINT
 #Constraint Orders table
 ALTER TABLE BikeStoreDB.Orders
 ADD CONSTRAINT FK_Customer_ID FOREIGN KEY (Customer_ID) REFERENCES Customers(Customer_ID),
@@ -22,3 +23,20 @@ ADD CONSTRAINT FK_Store_ID2 FOREIGN KEY (Store_ID) REFERENCES BikeStoreDB.Stores
 ALTER TABLE BikeStoreDB.Stocks
 ADD CONSTRAINT FK_Store_ID3 FOREIGN KEY (Store_ID) REFERENCES BikeStoreDB.Stores(Store_ID),
 ADD CONSTRAINT FK_Product_ID2 FOREIGN KEY (Product_ID) REFERENCES BikeStoreDB.Products(Product_ID);
+
+
+-- INDEX
+#Create index Order_items
+CREATE UNIQUE INDEX OrderItem_ID
+ON BikeStoreDB.Order_items(Order_ID, Item_ID);
+
+#Create index Order_items
+CREATE UNIQUE INDEX Stock_ID
+ON BikeStoreDB.Stocks(Store_ID, Product_ID);
+
+DROP INDEX Stock_ID
+ON BikeStoreDB.Stocks;
+
+SHOW INDEX FROM Stocks
+
+

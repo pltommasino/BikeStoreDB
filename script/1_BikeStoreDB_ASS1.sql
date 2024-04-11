@@ -9,35 +9,35 @@ USE BikeStoreDB;
 #creating brands table
 CREATE TABLE BikeStoreDB.Brands 
 ( 
-Brand_ID INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-Brand_name VARCHAR(20) UNIQUE
+Brand_ID INT NOT NULL,
+Brand_name CHAR(20) UNIQUE
 );
 
 #creating categories table
 CREATE TABLE BikeStoreDB.Categories
 (
-Category_ID INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-CategoryName VARCHAR(20) UNIQUE
+Category_ID INT NOT NULL,
+Category_name CHAR(20) UNIQUE
 );
 
 #creating customers table
 CREATE TABLE BikeStoreDB.Customers
 (
-Customer_ID INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-FirstName VARCHAR(20) NOT NULL,
-LastName VARCHAR(20) NOT NULL,
+Customer_ID INT NOT NULL,
+First_name CHAR(20) NOT NULL,
+Last_name CHAR(20) NOT NULL,
 Phone VARCHAR(20),
 Email VARCHAR(40),
 Street VARCHAR(30),
-City VARCHAR(30),
-State VARCHAR(5),
-Zip_code INT
+City CHAR(30),
+State CHAR(2),
+ZipCode INT
 );
 
 #creating orders table
 CREATE TABLE BikeStoreDB.Orders
 (
-Order_ID INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+Order_ID INT NOT NULL,
 Customer_ID INT,
 Order_status INT,
 Order_date DATE,
@@ -56,12 +56,13 @@ Product_ID INT,
 Quantity INT,
 List_price FLOAT,
 Discount FLOAT
+-- PRIMARY KEY (Order_ID, Item_ID)
 );
 
 #creating products table
 CREATE TABLE BikeStoreDB.Products
 (
-Product_ID INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+Product_ID INT NOT NULL,
 Product_name VARCHAR(60),
 Brand_ID INT,
 Category_ID INT,
@@ -72,9 +73,9 @@ List_price FLOAT
 #creating staffs table
 CREATE TABLE BikeStoreDB.Staffs
 (
-Staff_ID INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-First_name VARCHAR(20),
-Last_name VARCHAR(20),
+Staff_ID INT NOT NULL,
+First_name CHAR(20),
+Last_name CHAR(20),
 Email VARCHAR(30),
 Phone VARCHAR(20),
 Activ INT,
@@ -87,20 +88,21 @@ CREATE TABLE BikeStoreDB.Stocks
 (
 Store_ID INT NOT NULL,
 Product_ID INT,
-Quantity INT
+Quantity INT,
+PRIMARY KEY (Store_ID, Product_ID)
 );
 
 #creating stores table
 CREATE TABLE BikeStoreDB.Stores
 (
-Store_ID INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-Store_name VARCHAR(20),
+Store_ID INT NOT NULL,
+Store_name CHAR(20),
 Phone VARCHAR(20),
-E_mail VARCHAR(30),
+Email VARCHAR(30),
 Street VARCHAR(30),
-City VARCHAR(20),
-State VARCHAR(5),
-Zip_code INT
+City CHAR(20),
+State CHAR(2),
+ZipCode INT
 );
 
 #importing brands data

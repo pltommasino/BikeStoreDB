@@ -102,8 +102,8 @@ WHERE Category_ID IN (3, 6, 7);
 #QUERY 7
 -- Average order price
 
-select round(avg(p.mean_full),2) as full_price_average
-from (select Order_ID, round(avg(List_price*Quantity),2) as mean_full
+select round(avg(p.full_order),2) as full_order_price_average
+from (select Order_ID, round(sum(List_price*Quantity),2) as full_order
       from Order_items
       group by Order_ID) p;
    
@@ -115,15 +115,17 @@ from Stocks s join Products p on s.Product_ID = p.Product_ID
 where Quantity = 0;
 
 #QUERY 9
--- TO DO
+-- average shipping-time
 
-
+select round(avg(o.shipping_time)) as average_shipping_time
+from (select Order_status, Order_date, Shipped_date, datediff(Shipped_date,Order_date) as shipping_time
+      from Orders
+      where Order_status = 4
+      ) o; 
 
 #QUERY 10
--- City with best customer - Se vuoi TO DO
-
-select City, count(*) as numCust
-from Customers 
-group by City
-order by numCust desc;
-
+-- Best-selling store
+select Store_ID, count(*) as Orders
+from Orders
+group by Store_ID
+order by Orders desc

@@ -96,8 +96,8 @@ ON P.Product_ID = T4.Product_ID;
 
 #QUERY 6
 -- What is the most featured category in the products?
-#1 #Meno Performante
-SELECT C.Category_ID, C.Category_name, TAB5.CategoryCount_inProduct
+#1 #5.19 cost before #3.89 cost after
+EXPLAIN FORMAT=json SELECT C.Category_ID, C.Category_name, TAB5.CategoryCount_inProduct
 FROM Categories AS C
 INNER JOIN (
 	SELECT Category_ID, COUNT(Category_ID) AS CategoryCount_inProduct
@@ -107,11 +107,12 @@ INNER JOIN (
 	LIMIT 3
 ) AS TAB5
 ON C.Category_ID = TAB5.Category_ID;
-#2 #Più Performante
-SELECT P.Category_ID, C.Category_name, COUNT(P.Category_ID) AS CategoryCount_inProduct
+
+#2 #226.65 cost before #34.89 cost after
+EXPLAIN FORMAT=json SELECT C.Category_ID, C.Category_name, COUNT(P.Category_ID) AS CategoryCount_inProduct
 FROM Products AS P
 INNER JOIN Categories AS C
-ON P.Category_ID = C.Category_ID
+WHERE P.Category_ID = C.Category_ID
 GROUP BY P.Category_ID, C.Category_name
 ORDER BY CategoryCount_inProduct DESC
 LIMIT 3;

@@ -42,7 +42,7 @@ Customer_ID INT,
 Order_status INT,
 Order_date DATE,
 Required_date DATE,
-Shipped_date DATE,
+Shipped_date DATE NULL,
 Store_ID INT,
 Staff_ID INT
 );
@@ -79,7 +79,7 @@ Email VARCHAR(30),
 Phone VARCHAR(20),
 Activ INT,
 Store_ID INT,
-Manager_ID INT
+Manager_ID INT NULL
 );
 
 #creating stocks table
@@ -125,7 +125,9 @@ IGNORE 1 ROWS;
 LOAD DATA LOCAL INFILE '/Users/pasquale/Documents/MySQL/DMDS/BikeStoreDB/data/orders.csv'
 INTO TABLE Orders
 FIELDS TERMINATED BY ','
-IGNORE 1 ROWS;
+IGNORE 1 ROWS
+(Order_ID, Customer_ID, Order_status, Order_date, Required_date, @Shipped_date, Store_ID, Staff_ID)
+SET Shipped_date = NULLIF(@Shipped_date, 'NULL');
 
 #importing order_items data
 LOAD DATA LOCAL INFILE '/Users/pasquale/Documents/MySQL/DMDS/BikeStoreDB/data/order_items.csv'
@@ -143,7 +145,9 @@ IGNORE 1 ROWS;
 LOAD DATA LOCAL INFILE '/Users/pasquale/Documents/MySQL/DMDS/BikeStoreDB/data/staffs.csv'
 INTO TABLE Staffs
 FIELDS TERMINATED BY ','
-IGNORE 1 ROWS;
+IGNORE 1 ROWS
+(Staff_ID, First_name, Last_name, Email, Phone, Activ, Store_ID, @Manager_ID)
+SET Manager_ID = NULLIF(@Manager_ID, 'NULL ');
 
 #importing stocks data
 LOAD DATA LOCAL INFILE '/Users/pasquale/Documents/MySQL/DMDS/BikeStoreDB/data/stocks.csv'

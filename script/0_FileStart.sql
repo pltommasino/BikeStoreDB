@@ -35,10 +35,3 @@ WHERE Order_ID IN (1541, 937, 1506);
 SELECT *
 FROM Customers
 WHERE Customer_ID IN (73, 75, 10);
-
-
-
-
-SELECT * FROM Orders WHERE Shipped_date = 0000-00-00;
-
-UPDATE Orders SET Shipped_date = NULL WHERE Shipped_date = 0000-00-00;

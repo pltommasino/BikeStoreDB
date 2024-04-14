@@ -108,7 +108,7 @@ INNER JOIN (
 ) AS TAB5
 ON C.Category_ID = TAB5.Category_ID;
 
-#2 #226.65 cost before #34.89 cost after
+#2 #226.65 cost before #146.32 cost with only primary key #34.89 cost after
 EXPLAIN FORMAT=json SELECT C.Category_ID, C.Category_name, COUNT(P.Category_ID) AS CategoryCount_inProduct
 FROM Products AS P
 INNER JOIN Categories AS C

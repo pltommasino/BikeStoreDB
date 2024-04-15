@@ -34,6 +34,7 @@ FROM (
 	GROUP BY Store_ID) u 
 JOIN Stores USING (Store_ID)
 ORDER BY NumberOfOrders DESC;
+
 -- QUERY COST
 EXPLAIN FORMAT=JSON SELECT Store_ID, NumberOfOrders, Store_name, City, State
 FROM (
@@ -46,7 +47,7 @@ FROM (
     WHERE o.shipping_time > (
 		SELECT ROUND(AVG(p.Shipping_time)) AS average_shipping_time
         FROM (
-			SELECT Order_date, Shipped_date, DATEDIFF(Shipped_date,Order_date) AS Shipping_time
+			SELECT Order_date, Shipped_date, DATEDIFF(Shipped_date,Order_date) AS Shipping_time, Store_ID
 			FROM Orders
 			WHERE Order_status = 4) p)
 	GROUP BY Store_ID) u 
@@ -68,23 +69,32 @@ ADD PRIMARY KEY AUTO_INCREMENT (Store_ID);
 ALTER TABLE BikeStoreDB.Orders
 ADD CONSTRAINT FK_Store_ID FOREIGN KEY (Store_ID) REFERENCES BikeStoreDB.Stores(Store_ID);
 
+CREATE TABLE SubTab(
+Order_ID INT,
+Order_date DATE,
+Shipped_date DATE,
+Shipping_time INT,
+Store_ID int 
+);
+
+INSERT INTO SubTab 
+SELECT Order_Id, Order_date, Shipped_date, DATEDIFF(Shipped_date,Order_date), Store_ID
+FROM Orders
+WHERE Order_status = 4;
+
+ALTER TABLE BikeStoreDB.SubTab
+ADD PRIMARY KEY AUTO_INCREMENT (Order_ID);
 
 
 -- NEW QUERY COST
 EXPLAIN FORMAT=JSON SELECT Store_ID, NumberOfOrders, Store_name, City, State
 FROM (
 	SELECT Store_ID, COUNT(*) AS NumberOfOrders
-    FROM (
-		SELECT Order_date, Shipped_date, DATEDIFF(Shipped_date,Order_date) AS Shipping_time, Store_ID
-		FROM Orders
-		WHERE Order_status = 4) o 
+    FROM SubTab o 
 	JOIN Stores USING (Store_ID)
     WHERE o.shipping_time > (
 		SELECT ROUND(AVG(p.Shipping_time)) AS average_shipping_time
-        FROM (
-			SELECT Order_date, Shipped_date, DATEDIFF(Shipped_date,Order_date) AS Shipping_time
-			FROM Orders
-			WHERE Order_status = 4) p)
+        FROM SubTab p)
 	GROUP BY Store_ID) u 
 JOIN Stores USING (Store_ID)
 ORDER BY NumberOfOrders DESC;

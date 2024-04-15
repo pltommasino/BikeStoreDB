@@ -21,8 +21,8 @@ LIMIT 3;
 
 
 #QUERY 3
--- Customers, store and staff that are involved in the 3 most expensive orders
-SELECT O.Order_ID, C.Customer_ID, C.First_name AS Customer_FirstName, C.Last_name AS Customer_LastName, 
+-- Customers and store that are involved in the 3 most expensive orders
+SELECT C.Customer_ID, C.First_name AS Customer_FirstName, C.Last_name AS Customer_LastName, 
 		C.City AS Customer_City, C.ZipCode AS Customer_ZipCode, C.State AS Customer_State, SO.Store_name,
         SO.State AS Store_State, SO.ZipCode AS Store_ZipCode
 FROM Orders AS O
@@ -39,6 +39,7 @@ INNER JOIN (
 ) AS T2
 ON O.Order_ID = T2.Order_ID
 ORDER BY O.Order_ID;
+#Melanie, Abby and Pamelia - Baldwin Bikes, NY
 
 
 
@@ -59,23 +60,20 @@ ORDER BY T3.Count_Brand DESC;
 
 
 #QUERY 5
--- Where do the customers live? Regroup for state
-SELECT State, COUNT(State) AS Count_State
-FROM Customers
-GROUP BY State;
-#CA, NY, TX
+-- Number of bicycles in stock group by Store
+SELECT Stores.Store_name, Stores.State, SUM(Stocks.Quantity) AS Total_Bicycles_In_Stock
+FROM Stores
+LEFT JOIN Stocks ON Stores.Store_ID = Stocks.Store_ID
+GROUP BY Stores.Store_name, Stores.State
+ORDER BY Total_Bicycles_In_Stock DESC;
 
-#Compare whether the cities of the customers are the same as the stores
-SELECT *
-FROM Stores;
-#CA, NY, TX
 
 
 
 #QUERY 6
 -- The name and quantity of 3 best-selling products
 #1
-SELECT P.Product_ID, P.Product_Name, P.Model_year, P.List_price, SUM(O.Quantity) AS Total_Quantity
+SELECT P.Product_ID, P.Product_Name, C.Category_name, P.Model_year, P.List_price, SUM(O.Quantity) AS Total_QuantitySold
 FROM Products AS P
 INNER JOIN (
     SELECT Product_ID
@@ -86,19 +84,21 @@ INNER JOIN (
 ) AS T4
 ON P.Product_ID = T4.Product_ID
 INNER JOIN Order_items AS O ON P.Product_ID = O.Product_ID
-GROUP BY P.Product_ID, P.Product_Name, P.Model_year, P.List_price
-ORDER BY Total_Quantity DESC;
+INNER JOIN Categories AS C ON P.Category_ID = C.Category_ID
+GROUP BY P.Product_ID, P.Product_Name, P.Model_year, P.List_price, C.Category_name
+ORDER BY Total_QuantitySold DESC;
 #2
-SELECT P.Product_ID, P.Product_Name, P.Model_year, P.List_price, T4.Total_Quantity
+SELECT P.Product_ID, P.Product_Name, C.Category_name, P.Model_year, P.List_price, T4.Total_QuantitySold
 FROM Products AS P
 INNER JOIN (
-    SELECT Product_ID, SUM(Quantity) AS Total_Quantity
+    SELECT Product_ID, SUM(Quantity) AS Total_QuantitySold
     FROM Order_items
     GROUP BY Product_ID
     ORDER BY SUM(Quantity) DESC
     LIMIT 3
 ) AS T4
-ON P.Product_ID = T4.Product_ID;
+ON P.Product_ID = T4.Product_ID
+INNER JOIN Categories AS C ON P.Category_ID = C.Category_ID;
 
 
 

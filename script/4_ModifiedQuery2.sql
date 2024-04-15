@@ -46,7 +46,8 @@ ALTER TABLE BikeStoreDB.Products
 ADD PRIMARY KEY AUTO_INCREMENT (Product_ID);
 
 
--- QUERY COST
+
+-- NEW QUERY COST
 EXPLAIN FORMAT=json SELECT C.Category_ID, C.Category_name, TAB5.CategoryCount_inProduct
 FROM Categories AS C
 INNER JOIN (
@@ -58,13 +59,3 @@ INNER JOIN (
 ) AS TAB5
 ON C.Category_ID = TAB5.Category_ID;
 #3.89
-
-
-
--- DELETE PRIMARY KEY
-#Categories table
-ALTER TABLE BikeStoreDB.Categories
-DROP PRIMARY KEY;
-#Products table
-ALTER TABLE BikeStoreDB.Products
-DROP PRIMARY KEY;

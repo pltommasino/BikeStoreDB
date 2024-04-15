@@ -12,7 +12,6 @@ GROUP BY P.Product_ID, P.Product_Name, C.Category_name, P.Model_year, P.List_pri
 ORDER BY Total_QuantitySold DESC
 LIMIT 3;
 
-
 #MODIFIED NEW QUERY
 SELECT P.Product_ID, P.Product_Name, C.Category_name, P.Model_year, P.List_price, T4.Total_QuantitySold
 FROM Products AS P
@@ -40,7 +39,6 @@ INNER JOIN Categories AS C ON P.Category_ID = C.Category_ID;
 #167.82
 
 
-
 -- ADD PRIMARY KEY
 #Categories table
 ALTER TABLE BikeStoreDB.Categories
@@ -62,7 +60,7 @@ ADD CONSTRAINT FK_Category_ID FOREIGN KEY (Category_ID) REFERENCES BikeStoreDB.C
 
 
 
--- QUERY COST
+-- NEW QUERY COST
 EXPLAIN FORMAT=json SELECT P.Product_ID, P.Product_Name, C.Category_name, P.Model_year, P.List_price, T4.Total_QuantitySold
 FROM Products AS P
 INNER JOIN (
@@ -75,26 +73,3 @@ INNER JOIN (
 ON P.Product_ID = T4.Product_ID
 INNER JOIN Categories AS C ON P.Category_ID = C.Category_ID;
 #4.12
-
-
-
--- DROP CONSTRAINT
-#Constraint Order_items table
-ALTER TABLE BikeStoreDB.Order_items
-DROP CONSTRAINT FK_Product_ID;
-#Constraint Products table
-ALTER TABLE BikeStoreDB.Products
-DROP CONSTRAINT FK_Category_ID;
-
--- DROP PRIMARY KEY
-#Categories table
-ALTER TABLE BikeStoreDB.Categories
-DROP PRIMARY KEY;
-#Order_items table ####
-ALTER TABLE BikeStoreDB.Order_items
-DROP PRIMARY KEY;
-#Products table
-ALTER TABLE BikeStoreDB.Products
-DROP PRIMARY KEY;
-
-SHOW INDEXES FROM Products

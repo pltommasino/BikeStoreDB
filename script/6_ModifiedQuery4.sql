@@ -34,7 +34,7 @@ FROM (
 	GROUP BY Store_ID) u 
 JOIN Stores USING (Store_ID)
 ORDER BY NumberOfOrders DESC;
-#QUERY COST
+-- QUERY COST
 EXPLAIN FORMAT=JSON SELECT Store_ID, NumberOfOrders, Store_name, City, State
 FROM (
 	SELECT Store_ID, COUNT(*) AS NumberOfOrders
@@ -63,14 +63,14 @@ ADD PRIMARY KEY AUTO_INCREMENT (Order_ID);
 ALTER TABLE BikeStoreDB.Stores
 ADD PRIMARY KEY AUTO_INCREMENT (Store_ID);
 
-
 -- CONSTRAINT
 #Constraint Orders table
 ALTER TABLE BikeStoreDB.Orders
 ADD CONSTRAINT FK_Store_ID FOREIGN KEY (Store_ID) REFERENCES BikeStoreDB.Stores(Store_ID);
 
 
-#QUERY COST
+
+-- NEW QUERY COST
 EXPLAIN FORMAT=JSON SELECT Store_ID, NumberOfOrders, Store_name, City, State
 FROM (
 	SELECT Store_ID, COUNT(*) AS NumberOfOrders
@@ -89,6 +89,3 @@ FROM (
 JOIN Stores USING (Store_ID)
 ORDER BY NumberOfOrders DESC;
 #5.42
-
-
-

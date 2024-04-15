@@ -121,7 +121,9 @@ IGNORE 1 ROWS;
 LOAD DATA LOCAL INFILE '/Users/pasquale/Documents/MySQL/DMDS/BikeStoreDB/data/customers.csv'
 INTO TABLE Customers
 FIELDS TERMINATED BY ','
-IGNORE 1 ROWS;
+IGNORE 1 ROWS
+(Customer_ID, First_name, Last_name, @Phone, Email, Street, City, State, ZipCode)
+SET Phone = NULLIF(@Phone, 'NULL');
 
 #importing orders data
 LOAD DATA LOCAL INFILE '/Users/pasquale/Documents/MySQL/DMDS/BikeStoreDB/data/orders.csv'

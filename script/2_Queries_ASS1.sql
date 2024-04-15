@@ -1,14 +1,5 @@
 USE BikeStoreDB;
 
-#QUERY 1
--- Average order price
-SELECT ROUND(AVG(t1.Full_order_price),2) AS Full_order_price_average
-FROM (SELECT Order_ID, ROUND(SUM((List_price*Quantity) - (List_price*Quantity*Discount)),2) AS Full_order_price
-      FROM Order_items
-      GROUP BY Order_ID) t1;
-
-
-
 #QUERY 2
 -- The 3 most expensive orders
 SELECT Order_ID, ROUND(SUM((List_price * Quantity) - (List_price * Quantity * Discount)), 2) AS TotalCost
@@ -67,74 +58,6 @@ LEFT JOIN Stocks ON Stores.Store_ID = Stocks.Store_ID
 GROUP BY Stores.Store_name, Stores.State
 ORDER BY Total_Bicycles_In_Stock DESC;
 
-
-
-
-#QUERY 6
--- The name and quantity of 3 best-selling products
-#1
-SELECT P.Product_ID, P.Product_Name, C.Category_name, P.Model_year, P.List_price, SUM(O.Quantity) AS Total_QuantitySold
-FROM Products AS P
-INNER JOIN (
-    SELECT Product_ID
-    FROM Order_items
-    GROUP BY Product_ID
-    ORDER BY SUM(Quantity) DESC
-    LIMIT 3
-) AS T4
-ON P.Product_ID = T4.Product_ID
-INNER JOIN Order_items AS O ON P.Product_ID = O.Product_ID
-INNER JOIN Categories AS C ON P.Category_ID = C.Category_ID
-GROUP BY P.Product_ID, P.Product_Name, P.Model_year, P.List_price, C.Category_name
-ORDER BY Total_QuantitySold DESC;
-#2
-SELECT P.Product_ID, P.Product_Name, C.Category_name, P.Model_year, P.List_price, T4.Total_QuantitySold
-FROM Products AS P
-INNER JOIN (
-    SELECT Product_ID, SUM(Quantity) AS Total_QuantitySold
-    FROM Order_items
-    GROUP BY Product_ID
-    ORDER BY SUM(Quantity) DESC
-    LIMIT 3
-) AS T4
-ON P.Product_ID = T4.Product_ID
-INNER JOIN Categories AS C ON P.Category_ID = C.Category_ID;
-
-
-
-#QUERY 7
--- The most featured category in the products
-#1 #5.19 cost before #3.89 cost after
-EXPLAIN FORMAT=json SELECT C.Category_ID, C.Category_name, TAB5.CategoryCount_inProduct
-FROM Categories AS C
-INNER JOIN (
-	SELECT Category_ID, COUNT(Category_ID) AS CategoryCount_inProduct
-	FROM Products
-	GROUP BY Category_ID
-	ORDER BY CategoryCount_inProduct DESC
-	LIMIT 3
-) AS TAB5
-ON C.Category_ID = TAB5.Category_ID;
-
-SELECT C.Category_ID, C.Category_name, TAB5.CategoryCount_inProduct
-FROM Categories AS C
-INNER JOIN (
-	SELECT Category_ID, COUNT(Category_ID) AS CategoryCount_inProduct
-	FROM Products
-	GROUP BY Category_ID
-	ORDER BY CategoryCount_inProduct DESC
-	LIMIT 3
-) AS TAB5
-ON C.Category_ID = TAB5.Category_ID;
-
-#2 #226.65 cost before #146.32 cost with only primary key #34.89 cost after
-EXPLAIN FORMAT=json SELECT C.Category_ID, C.Category_name, COUNT(P.Category_ID) AS CategoryCount_inProduct
-FROM Products AS P
-INNER JOIN Categories AS C
-WHERE P.Category_ID = C.Category_ID
-GROUP BY P.Category_ID, C.Category_name
-ORDER BY CategoryCount_inProduct DESC
-LIMIT 3;
   
   
   
@@ -146,28 +69,6 @@ JOIN Categories USING (Category_ID)
 WHERE Quantity = 0
 GROUP BY Category_name
 HAVING Category_name like 'Mountain%';
-
-
-
-#QUERY 9
--- Stores with number of shipped orders in a time above the average shipping time (of all store), grouped by store
-SELECT Store_ID, NumberOfOrders, Store_name, City, State
-FROM (
-	SELECT Store_ID, COUNT(*) AS NumberOfOrders
-    FROM (
-		SELECT Order_status, Order_date, Shipped_date, DATEDIFF(Shipped_date,Order_date) AS Shipping_time, Store_ID
-		FROM Orders
-		WHERE Order_status = 4) o 
-	JOIN Stores USING (Store_ID)
-    WHERE o.shipping_time > (
-		SELECT ROUND(AVG(p.Shipping_time)) AS average_shipping_time
-        FROM (
-			SELECT Order_status, Order_date, Shipped_date, DATEDIFF(Shipped_date,Order_date) AS Shipping_time
-			FROM Orders
-			WHERE Order_status = 4) p)
-	GROUP BY Store_ID) u 
-JOIN Stores USING (Store_ID)
-ORDER BY NumberOfOrders DESC;
 
 
 

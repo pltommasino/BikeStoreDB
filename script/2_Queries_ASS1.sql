@@ -1,6 +1,6 @@
 USE BikeStoreDB;
 
-#QUERY 2
+#QUERY 1
 -- The 3 most expensive orders
 SELECT Order_ID, ROUND(SUM((List_price * Quantity) - (List_price * Quantity * Discount)), 2) AS TotalCost
 FROM Order_items
@@ -11,7 +11,7 @@ LIMIT 3;
 
 
 
-#QUERY 3
+#QUERY 2
 -- Customers and store that are involved in the 3 most expensive orders
 SELECT C.Customer_ID, C.First_name AS Customer_FirstName, C.Last_name AS Customer_LastName, 
 		C.City AS Customer_City, C.ZipCode AS Customer_ZipCode, C.State AS Customer_State, SO.Store_name,
@@ -34,7 +34,7 @@ ORDER BY O.Order_ID;
 
 
 
-#QUERY 4
+#QUERY 3
 -- Name of the 3 most featured brand in the products
 SELECT B.Brand_ID, B.Brand_name, T3.Count_Brand
 FROM Brands AS B
@@ -50,7 +50,7 @@ ORDER BY T3.Count_Brand DESC;
 
 
 
-#QUERY 5
+#QUERY 4
 -- Number of bicycles in stock group by Store
 SELECT Stores.Store_name, Stores.State, SUM(Stocks.Quantity) AS Total_Bicycles_In_Stock
 FROM Stores
@@ -61,7 +61,7 @@ ORDER BY Total_Bicycles_In_Stock DESC;
   
   
   
-#QUERY 8
+#QUERY 5
 -- Number of not available products in the Mountain (bike) category
 SELECT Category_name, COUNT(*) AS NumberOfNotAvailableProducts
 FROM Stocks s JOIN Products p USING(Product_ID) 
@@ -72,7 +72,7 @@ HAVING Category_name like 'Mountain%';
 
 
 
-#QUERY 10
+#QUERY 6
 -- Number of processing orders, grouped by state
 SELECT State, COUNT(*) AS NumberOfProcessingOrders
 FROM Customers c

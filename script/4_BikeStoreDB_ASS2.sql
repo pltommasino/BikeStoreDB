@@ -10,14 +10,14 @@ USE BikeStoreDB;
 CREATE TABLE BikeStoreDB.Brands 
 ( 
 Brand_ID INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-Brand_name CHAR(20) UNIQUE
+Brand_name CHAR(20) UNIQUE NOT NULL
 );
 
 #creating categories table
 CREATE TABLE BikeStoreDB.Categories
 (
 Category_ID INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-Category_name CHAR(20) UNIQUE
+Category_name CHAR(20) UNIQUE NOT NULL
 );
 
 #creating customers table
@@ -38,8 +38,8 @@ ZipCode INT
 CREATE TABLE BikeStoreDB.Orders
 (
 Order_ID INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-Customer_ID INT,
-Order_status INT,
+Customer_ID INT NOT NULL,
+Order_status INT NOT NULL,
 Order_date DATE,
 Required_date DATE,
 Shipped_date DATE NULL,
@@ -51,9 +51,9 @@ Staff_ID INT
 CREATE TABLE BikeStoreDB.Order_items
 (
 Order_ID INT NOT NULL,
-Item_ID INT,
-Product_ID INT,
-Quantity INT,
+Item_ID INT NOT NULL,
+Product_ID INT NOT NULL,
+Quantity INT NOT NULL,
 List_price FLOAT,
 Discount FLOAT,
 PRIMARY KEY (Order_ID, Item_ID)
@@ -74,8 +74,8 @@ List_price FLOAT
 CREATE TABLE BikeStoreDB.Staffs
 (
 Staff_ID INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-First_name CHAR(20),
-Last_name CHAR(20),
+First_name CHAR(20) NOT NULL,
+Last_name CHAR(20) NOT NULL,
 Email VARCHAR(30),
 Phone VARCHAR(20),
 Activ INT,
@@ -87,8 +87,8 @@ Manager_ID INT NULL
 CREATE TABLE BikeStoreDB.Stocks
 (
 Store_ID INT NOT NULL,
-Product_ID INT,
-Quantity INT,
+Product_ID INT NOT NULL,
+Quantity INT NOT NULL,
 PRIMARY KEY (Store_ID, Product_ID)
 );
 
@@ -96,7 +96,7 @@ PRIMARY KEY (Store_ID, Product_ID)
 CREATE TABLE BikeStoreDB.Stores
 (
 Store_ID INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-Store_name CHAR(20),
+Store_name CHAR(20) NOT NULL,
 Phone VARCHAR(20),
 Email VARCHAR(30),
 Street VARCHAR(30),

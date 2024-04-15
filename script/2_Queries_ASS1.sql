@@ -1,29 +1,35 @@
 USE BikeStoreDB;
 
 #QUERY 1
--- What are the 3 most expensive orders?
+-- Average order price
+select round(avg(p.full_order),2) as full_order_price_average
+from (select Order_ID, round(sum(List_price*Quantity),2) as full_order
+      from Order_items
+      group by Order_ID) p;
+
+
+
+#QUERY 2
+-- The 3 most expensive orders
 SELECT Order_ID, ROUND(SUM((List_price * Quantity) - (List_price * Quantity * Discount)), 2) AS TotalCost
 FROM Order_items
 GROUP BY Order_ID
 ORDER BY TotalCost DESC
 LIMIT 3;
-#1541, 937, 1506
+#937, 1506 and 1541
 
 
 
-#QUERY 2
--- What are the customers, store and staff that are involved in the 3 most expensive orders?
+#QUERY 3
+-- Customers, store and staff that are involved in the 3 most expensive orders
 SELECT O.Order_ID, C.Customer_ID, C.First_name AS Customer_FirstName, C.Last_name AS Customer_LastName, 
 		C.City AS Customer_City, C.ZipCode AS Customer_ZipCode, C.State AS Customer_State, SO.Store_name,
-        SO.State AS Store_State, SO.ZipCode AS Store_ZipCode, SA.Staff_ID, SA.First_name AS Staff_FirstName,
-        SA.Last_name AS Staff_LastName, SA.Activ
+        SO.State AS Store_State, SO.ZipCode AS Store_ZipCode
 FROM Orders AS O
-LEFT JOIN Customers AS C
+INNER JOIN Customers AS C
 ON O.Customer_ID = C.Customer_ID
-LEFT JOIN Stores as SO
+INNER JOIN Stores as SO
 ON O.Store_ID = SO.Store_ID
-LEFT JOIN Staffs AS SA
-ON O.Staff_ID = SA.Staff_ID
 INNER JOIN (
 	SELECT Order_ID
 	FROM Order_items
@@ -36,23 +42,24 @@ ORDER BY O.Order_ID;
 
 
 
-#QUERY 3
--- What is the name of the most featured brand in the products?
-SELECT B.Brand_ID, B.Brand_name
+#QUERY 4
+-- Name of the most featured brand in the products
+SELECT B.Brand_ID, B.Brand_name, T3.Count_Brand
 FROM Brands AS B
 INNER JOIN(
-	SELECT Brand_ID
+	SELECT Brand_ID, COUNT(Brand_ID) AS Count_Brand
 	FROM Products
 	GROUP BY Brand_ID
-	ORDER BY COUNT(Brand_ID) DESC
-	LIMIT 1
+	ORDER BY Count_Brand DESC
+	LIMIT 3
 ) AS T3
-ON B.Brand_ID = T3.Brand_ID;
+ON B.Brand_ID = T3.Brand_ID
+ORDER BY T3.Count_Brand DESC;
 
 
 
-#QUERY 4
--- Where do the customers live? Regroup for city
+#QUERY 5
+-- Where do the customers live? Regroup for state
 SELECT State, COUNT(State) AS Count_State
 FROM Customers
 GROUP BY State;
@@ -65,8 +72,8 @@ FROM Stores;
 
 
 
-#QUERY 5
--- What and how many are the 3 best-selling products?
+#QUERY 6
+-- The name and quantity of 3 best-selling products
 #1
 SELECT P.Product_ID, P.Product_Name, P.Model_year, P.List_price, SUM(O.Quantity) AS Total_Quantity
 FROM Products AS P
@@ -79,7 +86,8 @@ INNER JOIN (
 ) AS T4
 ON P.Product_ID = T4.Product_ID
 INNER JOIN Order_items AS O ON P.Product_ID = O.Product_ID
-GROUP BY P.Product_ID, P.Product_Name, P.Model_year, P.List_price;
+GROUP BY P.Product_ID, P.Product_Name, P.Model_year, P.List_price
+ORDER BY Total_Quantity DESC;
 #2
 SELECT P.Product_ID, P.Product_Name, P.Model_year, P.List_price, T4.Total_Quantity
 FROM Products AS P
@@ -94,10 +102,21 @@ ON P.Product_ID = T4.Product_ID;
 
 
 
-#QUERY 6
--- What is the most featured category in the products?
+#QUERY 7
+-- The most featured category in the products
 #1 #5.19 cost before #3.89 cost after
 EXPLAIN FORMAT=json SELECT C.Category_ID, C.Category_name, TAB5.CategoryCount_inProduct
+FROM Categories AS C
+INNER JOIN (
+	SELECT Category_ID, COUNT(Category_ID) AS CategoryCount_inProduct
+	FROM Products
+	GROUP BY Category_ID
+	ORDER BY CategoryCount_inProduct DESC
+	LIMIT 3
+) AS TAB5
+ON C.Category_ID = TAB5.Category_ID;
+
+SELECT C.Category_ID, C.Category_name, TAB5.CategoryCount_inProduct
 FROM Categories AS C
 INNER JOIN (
 	SELECT Category_ID, COUNT(Category_ID) AS CategoryCount_inProduct
@@ -116,22 +135,11 @@ WHERE P.Category_ID = C.Category_ID
 GROUP BY P.Category_ID, C.Category_name
 ORDER BY CategoryCount_inProduct DESC
 LIMIT 3;
-
-
-
-#QUERY 7
--- Average order price
-
-select round(avg(p.full_order),2) as full_order_price_average
-from (select Order_ID, round(sum(List_price*Quantity),2) as full_order
-      from Order_items
-      group by Order_ID) p;
   
   
   
 #QUERY 8
 -- Not availabe articles
-
 select Store_ID, Product_name, Quantity
 from Stocks s join Products p on s.Product_ID = p.Product_ID
 where Quantity = 0;
@@ -140,7 +148,6 @@ where Quantity = 0;
 
 #QUERY 9
 -- average shipping-time
-
 select round(avg(o.shipping_time)) as average_shipping_time
 from (select Order_status, Order_date, Shipped_date, datediff(Shipped_date,Order_date) as shipping_time
       from Orders

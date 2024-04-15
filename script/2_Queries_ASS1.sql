@@ -2,10 +2,10 @@ USE BikeStoreDB;
 
 #QUERY 1
 -- Average order price
-select round(avg(t1.Full_order_price),2) as Full_order_price_average
-from (select Order_ID, round(sum((List_price*Quantity) - (List_price*Quantity*Discount)),2) as Full_order_price
-      from Order_items
-      group by Order_ID) t1;
+SELECT ROUND(AVG(t1.Full_order_price),2) AS Full_order_price_average
+FROM (SELECT Order_ID, ROUND(SUM((List_price*Quantity) - (List_price*Quantity*Discount)),2) AS Full_order_price
+      FROM Order_items
+      GROUP BY Order_ID) t1;
 
 
 
@@ -44,7 +44,7 @@ ORDER BY O.Order_ID;
 
 
 #QUERY 4
--- Name of the most featured brand in the products
+-- Name of the 3 most featured brand in the products
 SELECT B.Brand_ID, B.Brand_name, T3.Count_Brand
 FROM Brands AS B
 INNER JOIN(
@@ -139,43 +139,48 @@ LIMIT 3;
   
   
 #QUERY 8
--- Number of not avilable products in the Mountain (bike) category
-select Category_name, count(*) as NumberOfNotAvailableProducts
-from Stocks s join Products p using(Product_ID) join Categories using (Category_ID)
-where Quantity = 0
-group by Category_name
-having Category_name like 'Mountain%';
+-- Number of not available products in the Mountain (bike) category
+SELECT Category_name, COUNT(*) AS NumberOfNotAvailableProducts
+FROM Stocks s JOIN Products p USING(Product_ID) 
+JOIN Categories USING (Category_ID)
+WHERE Quantity = 0
+GROUP BY Category_name
+HAVING Category_name like 'Mountain%';
 
 
 
 #QUERY 9
--- Store with greater number of shipped orders in a time above the average shipping time
-
-Select Store_ID, NumberOfOrders, Store_name, City, State
-from (select Store_ID, count(*) as NumberOfOrders
-      from (select Order_status, Order_date, Shipped_date, datediff(Shipped_date,Order_date) as Shipping_time, Store_ID
-            from Orders
-            where Order_status = 4) o join Stores using (Store_ID)
-      where o.shipping_time > (select round(avg(p.Shipping_time)) as average_shipping_time
-                               from (select Order_status, Order_date, Shipped_date, datediff(Shipped_date,Order_date) as Shipping_time
-                                     from Orders
-                                     where Order_status = 4) p)
-	  group by Store_ID) u 
-	  join 
-      Stores 
-      using (Store_ID)
-order by NumberOfOrders desc;
+-- Stores with number of shipped orders in a time above the average shipping time (of all store), grouped by store
+SELECT Store_ID, NumberOfOrders, Store_name, City, State
+FROM (
+	SELECT Store_ID, COUNT(*) AS NumberOfOrders
+    FROM (
+		SELECT Order_status, Order_date, Shipped_date, DATEDIFF(Shipped_date,Order_date) AS Shipping_time, Store_ID
+		FROM Orders
+		WHERE Order_status = 4) o 
+	JOIN Stores USING (Store_ID)
+    WHERE o.shipping_time > (
+		SELECT ROUND(AVG(p.Shipping_time)) AS average_shipping_time
+        FROM (
+			SELECT Order_status, Order_date, Shipped_date, DATEDIFF(Shipped_date,Order_date) AS Shipping_time
+			FROM Orders
+			WHERE Order_status = 4) p)
+	GROUP BY Store_ID) u 
+JOIN Stores USING (Store_ID)
+ORDER BY NumberOfOrders DESC;
 
 
 
 #QUERY 10
--- Info of customers that have processing orders
-select State, count(*) as NumberOfProcessingOrders
-from Customers c
-where c.Customer_ID in (select c2.Customer_ID
-                        from (select Customer_ID, count(*) as numOrd
-                              from Orders join Customers using (Customer_ID)
-                              where Order_status = 2
-                              group by Customer_ID) c2)
-group by State
-order by NumberOfProcessingOrders desc;
+-- Number of processing orders, grouped by state
+SELECT State, COUNT(*) AS NumberOfProcessingOrders
+FROM Customers c
+WHERE c.Customer_ID IN (
+	SELECT c2.Customer_ID
+	FROM (
+		SELECT Customer_ID, COUNT(*) AS numOrd
+		FROM Orders JOIN Customers USING (Customer_ID)
+		WHERE Order_status = 2
+		GROUP BY Customer_ID) c2)
+GROUP BY State
+ORDER BY NumberOfProcessingOrders DESC;

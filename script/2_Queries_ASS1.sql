@@ -150,8 +150,13 @@ from (select Order_status, Order_date, Shipped_date, datediff(Shipped_date,Order
 
 
 #QUERY 10
--- Best-selling store
-select Store_ID, count(*) as Orders
-from Orders
-group by Store_ID
-order by Orders desc
+-- Info of customers that have more than one not shipped orders
+select *
+from Customers c
+where c.Customer_ID in (select c2.Customer_ID 
+                        from (select Customer_ID, count(*) as numOrd
+                              from Orders join Customers using (Customer_ID)
+                              where Order_status in (1,2,3)
+                              group by Customer_ID) c2
+						where numOrd > 1)
+order by Last_name;

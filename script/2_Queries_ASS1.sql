@@ -2,10 +2,10 @@ USE BikeStoreDB;
 
 #QUERY 1
 -- Average order price
-select round(avg(p.full_order),2) as full_order_price_average
-from (select Order_ID, round(sum(List_price*Quantity),2) as full_order
+select round(avg(t1.Full_order_price),2) as Full_order_price_average
+from (select Order_ID, round(sum((List_price*Quantity) - (List_price*Quantity*Discount)),2) as Full_order_price
       from Order_items
-      group by Order_ID) p;
+      group by Order_ID) t1;
 
 
 
@@ -139,31 +139,43 @@ LIMIT 3;
   
   
 #QUERY 8
--- Not availabe articles
-select Store_ID, Product_name, Quantity
-from Stocks s join Products p on s.Product_ID = p.Product_ID
-where Quantity = 0;
+-- Number of not avilable products in the Mountain (bike) category
+select Category_name, count(*) as NumberOfNotAvailableProducts
+from Stocks s join Products p using(Product_ID) join Categories using (Category_ID)
+where Quantity = 0
+group by Category_name
+having Category_name like 'Mountain%';
 
 
 
 #QUERY 9
--- average shipping-time
-select round(avg(o.shipping_time)) as average_shipping_time
-from (select Order_status, Order_date, Shipped_date, datediff(Shipped_date,Order_date) as shipping_time
-      from Orders
-      where Order_status = 4
-      ) o; 
+-- Store with greater number of shipped orders in a time above the average shipping time
+
+Select Store_ID, NumberOfOrders, Store_name, City, State
+from (select Store_ID, count(*) as NumberOfOrders
+      from (select Order_status, Order_date, Shipped_date, datediff(Shipped_date,Order_date) as Shipping_time, Store_ID
+            from Orders
+            where Order_status = 4) o join Stores using (Store_ID)
+      where o.shipping_time > (select round(avg(p.Shipping_time)) as average_shipping_time
+                               from (select Order_status, Order_date, Shipped_date, datediff(Shipped_date,Order_date) as Shipping_time
+                                     from Orders
+                                     where Order_status = 4) p)
+	  group by Store_ID) u 
+	  join 
+      Stores 
+      using (Store_ID)
+order by NumberOfOrders desc;
 
 
 
 #QUERY 10
--- Info of customers that have more than one not shipped orders
-select *
+-- Info of customers that have processing orders
+select State, count(*) as NumberOfProcessingOrders
 from Customers c
-where c.Customer_ID in (select c2.Customer_ID 
+where c.Customer_ID in (select c2.Customer_ID
                         from (select Customer_ID, count(*) as numOrd
                               from Orders join Customers using (Customer_ID)
-                              where Order_status in (1,2,3)
-                              group by Customer_ID) c2
-						where numOrd > 1)
-order by Last_name;
+                              where Order_status = 2
+                              group by Customer_ID) c2)
+group by State
+order by NumberOfProcessingOrders desc;

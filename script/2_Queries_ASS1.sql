@@ -62,13 +62,11 @@ ORDER BY Total_Bicycles_In_Stock DESC;
   
   
 #QUERY 5
--- Number of not available products in the Mountain (bike) category
-SELECT Category_name, COUNT(*) AS NumberOfNotAvailableProducts
-FROM Stocks s JOIN Products p USING(Product_ID) 
-JOIN Categories USING (Category_ID)
-WHERE Quantity = 0
-GROUP BY Category_name
-HAVING Category_name like 'Mountain%';
+-- Average order price
+SELECT ROUND(AVG(t1.Full_order_price),2) AS Full_order_price_average
+FROM (SELECT Order_ID, ROUND(SUM((List_price*Quantity) - (List_price*Quantity*Discount)),2) AS Full_order_price
+      FROM Order_items
+      GROUP BY Order_ID) t1;
 
 
 

@@ -1,6 +1,6 @@
 USE BikeStoreDB;
 
-#QUERY 9
+#QUERY 10
 -- Stores with number of shipped orders in a time above the average shipping time (of all store), grouped by store
 
 #OLD QUERY

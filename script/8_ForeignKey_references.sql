@@ -1,33 +1,3 @@
--- ADD PRIMARY KEY
-#Brands table
-ALTER TABLE BikeStoreDB.Brands
-ADD PRIMARY KEY AUTO_INCREMENT (Brand_ID);
-#Categories table
-ALTER TABLE BikeStoreDB.Categories
-ADD PRIMARY KEY AUTO_INCREMENT (Category_ID);
-#Customers table
-ALTER TABLE BikeStoreDB.Customers
-ADD PRIMARY KEY AUTO_INCREMENT (Customer_ID);
-#Order_items table ####
-ALTER TABLE BikeStoreDB.Order_items
-ADD PRIMARY KEY (Order_ID, Item_ID);
-#Orders table
-ALTER TABLE BikeStoreDB.Orders
-ADD PRIMARY KEY AUTO_INCREMENT (Order_ID);
-#Products table
-ALTER TABLE BikeStoreDB.Products
-ADD PRIMARY KEY AUTO_INCREMENT (Product_ID);
-#Staffs table
-ALTER TABLE BikeStoreDB.Staffs
-ADD PRIMARY KEY AUTO_INCREMENT (Staff_ID);
-#Stocks table ####
-ALTER TABLE BikeStoreDB.Stocks
-ADD PRIMARY KEY (Store_ID, Product_ID);
-#Stores table
-ALTER TABLE BikeStoreDB.Stores
-ADD PRIMARY KEY AUTO_INCREMENT (Store_ID);
-
-
 -- CONSTRAINT
 #Constraint Orders table
 ALTER TABLE BikeStoreDB.Orders
@@ -53,5 +23,3 @@ ADD CONSTRAINT FK_Store_ID2 FOREIGN KEY (Store_ID) REFERENCES BikeStoreDB.Stores
 ALTER TABLE BikeStoreDB.Stocks
 ADD CONSTRAINT FK_Store_ID3 FOREIGN KEY (Store_ID) REFERENCES BikeStoreDB.Stores(Store_ID),
 ADD CONSTRAINT FK_Product_ID2 FOREIGN KEY (Product_ID) REFERENCES BikeStoreDB.Products(Product_ID);
-
-

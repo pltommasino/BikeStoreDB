@@ -1,5 +1,3 @@
-USE BikeStoreDB;
-
 #QUERY 7
 -- The name and quantity of 3 best-selling products
 
@@ -72,4 +70,4 @@ INNER JOIN (
 ) AS T4
 ON P.Product_ID = T4.Product_ID
 INNER JOIN Categories AS C ON P.Category_ID = C.Category_ID;
-#4.12
+#1.40

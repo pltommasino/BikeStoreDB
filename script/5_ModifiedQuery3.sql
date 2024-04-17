@@ -34,7 +34,7 @@ FROM (
 ) AS NotAvailableProducts
 WHERE Category_name LIKE 'Mountain%'
 GROUP BY Category_name;
-#421.46
+#420.70
 
 
 -- ADD PRIMARY KEY

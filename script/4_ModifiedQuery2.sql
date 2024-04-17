@@ -1,5 +1,3 @@
-USE BikeStoreDB;
-
 #QUERY 8
 -- The most featured category in the products
 

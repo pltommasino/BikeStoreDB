@@ -151,7 +151,7 @@ INTO TABLE Staffs
 FIELDS TERMINATED BY ','
 IGNORE 1 ROWS
 (Staff_ID, First_name, Last_name, Email, Phone, Activ, Store_ID, @Manager_ID)
-SET Manager_ID = NULLIF(@Manager_ID, 'NULL ');
+SET Manager_ID = NULLIF(@Manager_ID, 'NULL\r');
 
 #importing stocks data
 LOAD DATA LOCAL INFILE '/Users/pasquale/Documents/MySQL/DMDS/BikeStoreDB/data/stocks.csv'

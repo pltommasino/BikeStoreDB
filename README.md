@@ -9,7 +9,30 @@ The purpose of this project was to develop a database that would track sales and
 | Pasquale Luca Tommasino | 1912107 | tommasino.1912107@studenti.uniroma1.it | 
 | Francesco Proietti | 1873188 | proietti.1873188@studenti.uniroma1.it |
 
-## /SCRIPT
+## EER DIAGRAM
+
+EER diagrams provide a visual representation of the relationships among the tables (entity) in the model. The image below represent our database.
+
+<img width="965" alt="EER-Diagram" src="https://github.com/pltommasino/BikeStoreDB/assets/123829470/3dd91575-e802-4b88-a5e6-69b43266d9fe">
+
+
+## LOGIC MODEL
+
+A logical model establishes the structure of data elements and the relationships among them.
+
+| ENTITY | ATTRIBUTES | FOREIGN KEY |
+| --- | --- | --- |
+| `Brands` | :key: ***Brand ID*** <br> :small_blue_diamond: Brand Name | --- |
+| `Categories` | :key: ***Category ID*** <br> :small_blue_diamond: Category Name | --- |
+| `Customers` | :key: ***Customer ID*** <br> :small_blue_diamond: First Name <br> :small_blue_diamond: Last Name <br> :small_blue_diamond: Phone Number <br> :small_blue_diamond: E-mail <br> :small_blue_diamond: Street <br> :small_blue_diamond: City <br> :small_blue_diamond: State <br> :small_blue_diamond: Zip Code | --- |
+| `Order_items` | :key: (***Order ID***, ***Item ID***) <br> :small_blue_diamond: Product ID <br> :small_blue_diamond: Quantity <br> :small_blue_diamond: List Price <br> :small_blue_diamond: Discount | :link: Order ID (Ref. *`Orders`: Order ID*) <br> :link: Product ID (Ref. *`Products`: Product ID*) |
+| `Orders` | :key: ***Order ID*** <br> :small_blue_diamond: Customer ID <br> :small_blue_diamond: Order Status <br> :small_blue_diamond: Order Date <br> :small_blue_diamond: Required Date <br> :small_blue_diamond: Shipped Date <br> :small_blue_diamond: Store ID <br> :small_blue_diamond: Staff ID | :link: Customer ID (Ref. *`Customers`: Customer ID*) <br> :link: Staff ID (Ref. *`Staffs`: Staff ID*) <br> :link: Store ID (Ref. *`Stores`: Store ID*) |
+| `Products` | :key: ***Product ID*** <br> :small_blue_diamond: Product Name <br> :small_blue_diamond: Brand ID <br> :small_blue_diamond: Category ID <br> :small_blue_diamond: Model Year <br> :small_blue_diamond: List Price | :link: Brand ID (Ref. *`Brands`: Brand ID*) <br> :link: Category ID (Ref. *`Categories`: Category ID*) |
+| `Staffs` | :key: ***Staff ID*** <br> :small_blue_diamond: First Name <br> :small_blue_diamond: Last Name <br> :small_blue_diamond: E-mail <br> :small_blue_diamond: Phone Number <br> :small_blue_diamond: Active <br> :small_blue_diamond: Store ID <br> :small_blue_diamond: Manager ID | :link: Store ID (Ref. *`Stores`: Store ID*) |
+| `Stocks` | :key: (***Store_ID***, ***Product ID***) <br> :small_blue_diamond: Quantity | :link: Store ID (Ref. *Stores: Store ID*) <br> :link: Product ID (Ref. *`Products`: Product ID*) |
+| `Stores` | :key: ***Store ID*** <br> :small_blue_diamond: Store Name <br> :small_blue_diamond: Phone Number <br> :small_blue_diamond: E-mail <br> :small_blue_diamond: Street <br> :small_blue_diamond: City <br> :small_blue_diamond: State <br> :small_blue_diamond: Zip Code | --- |
+
+## SCRIPT
 
 Our work is divided into 9 files:
 
@@ -45,7 +68,7 @@ Our work is divided into 9 files:
 `6_ModifiedQuery4.sql`
 > Analyze query cost. Create an initial query, to see it modified and improved computionally.
 
-## /DATA
+## DATA
 
 Database is builded from the following tables:
 
@@ -75,28 +98,4 @@ Database is builded from the following tables:
 
 9. Stores
 > The stores table includes the store’s information. Each store has a store name, contact information such as phone and email, and an address including street, city, state, and zip code.
-
-
-## EER DIAGRAM
-
-EER diagrams provide a visual representation of the relationships among the tables (entity) in the model. The image below represent our database.
-
-<img width="965" alt="EER-Diagram" src="https://github.com/pltommasino/BikeStoreDB/assets/123829470/3dd91575-e802-4b88-a5e6-69b43266d9fe">
-
-
-## LOGIC MODEL
-
-A logical model establishes the structure of data elements and the relationships among them.
-
-| ENTITY | ATTRIBUTES | FOREIGN KEY |
-| --- | --- | --- |
-| `Brands` | :key: ***Brand ID*** <br> :small_blue_diamond: Brand Name | --- |
-| `Categories` | :key: ***Category ID*** <br> :small_blue_diamond: Category Name | --- |
-| `Customers` | :key: ***Customer ID*** <br> :small_blue_diamond: First Name <br> :small_blue_diamond: Last Name <br> :small_blue_diamond: Phone Number <br> :small_blue_diamond: E-mail <br> :small_blue_diamond: Street <br> :small_blue_diamond: City <br> :small_blue_diamond: State <br> :small_blue_diamond: Zip Code | --- |
-| `Order_items` | :key: (***Order ID***, ***Item ID***) <br> :small_blue_diamond: Product ID <br> :small_blue_diamond: Quantity <br> :small_blue_diamond: List Price <br> :small_blue_diamond: Discount | :link: Order ID (Ref. *`Orders`: Order ID*) <br> :link: Product ID (Ref. *`Products`: Product ID*) |
-| `Orders` | :key: ***Order ID*** <br> :small_blue_diamond: Customer ID <br> :small_blue_diamond: Order Status <br> :small_blue_diamond: Order Date <br> :small_blue_diamond: Required Date <br> :small_blue_diamond: Shipped Date <br> :small_blue_diamond: Store ID <br> :small_blue_diamond: Staff ID | :link: Customer ID (Ref. *`Customers`: Customer ID*) <br> :link: Staff ID (Ref. *`Staffs`: Staff ID*) <br> :link: Store ID (Ref. *`Stores`: Store ID*) |
-| `Products` | :key: ***Product ID*** <br> :small_blue_diamond: Product Name <br> :small_blue_diamond: Brand ID <br> :small_blue_diamond: Category ID <br> :small_blue_diamond: Model Year <br> :small_blue_diamond: List Price | :link: Brand ID (Ref. *`Brands`: Brand ID*) <br> :link: Category ID (Ref. *`Categories`: Category ID*) |
-| `Staffs` | :key: ***Staff ID*** <br> :small_blue_diamond: First Name <br> :small_blue_diamond: Last Name <br> :small_blue_diamond: E-mail <br> :small_blue_diamond: Phone Number <br> :small_blue_diamond: Active <br> :small_blue_diamond: Store ID <br> :small_blue_diamond: Manager ID | :link: Store ID (Ref. *`Stores`: Store ID*) |
-| `Stocks` | :key: (***Store_ID***, ***Product ID***) <br> :small_blue_diamond: Quantity | :link: Store ID (Ref. *Stores: Store ID*) <br> :link: Product ID (Ref. *`Products`: Product ID*) |
-| `Stores` | :key: ***Store ID*** <br> :small_blue_diamond: Store Name <br> :small_blue_diamond: Phone Number <br> :small_blue_diamond: E-mail <br> :small_blue_diamond: Street <br> :small_blue_diamond: City <br> :small_blue_diamond: State <br> :small_blue_diamond: Zip Code | --- |
 

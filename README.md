@@ -1,47 +1,51 @@
-# Bike Store Database :bike: :department_store:
+# **BIKE STORE DATABASES** :department_store: :bike:
 
-## INTRO
+## PRESENTATION
 
-This project was carried out by Group 42 of Data Management for Data Science, consisting of:
+The purpose of this project was to develop a database that would track sales and production of bike stores in America. This project was carried out by Group 42 of Data Management for Data Science, consisting of:
 
 | NAME and SURNAME | MATRICOLA | EMAIL |
 | --- | --- | --- |
 | Pasquale Luca Tommasino | 1912107 | tommasino.1912107@studenti.uniroma1.it | 
 | Francesco Proietti | 1873188 | proietti.1873188@studenti.uniroma1.it |
 
-The purpose of our project was to develop a database that would track sales and production of bike stores in America.
-
-## SCRIPT
+## /SCRIPT
 
 Our work is divided into 9 files:
-0_FileStart.sql
-> 
 
-1_BikeStoreDB_ASS1.sql
->
+`0_FileStart.sql` 
+> Set variables for load data and null value in data
 
-2_Queries_ASS1.sql
->
+`1_BikeStoreDB_ASS1.sql`
+> Create the first version of database (limite ourselves to very simple tables to create a comparison with the queries we will see later).
 
-3_ModifiedQuery1.sql
->
+`2_Queries_ASS1.sql`
+> Create six queries to analyze data
 
-4_ModifiedQuery2.sql
->
+`7_BikeStoreDB_ASS2.sql`
+> Create the modified version of database (full completed)
 
-5_ModifiedQuery3.sql
->
+`8_ForeignKey_references.sql`
+> Create table relation 
 
-6_ModifiedQuery4.sql
->
+#
+> [!IMPORTANT]
+> For these files (3 to 6, listed below), it is important to run file 1 first to create the database without primary keys and relation between tables with foreign key, for analyze the query cost. We analyze with the *query_cost* in the *EXPLAIN format=JSON* section, the cost of the query, having unfortunately a not too big database, and the execution time is really small. Query cost refers to how expensive MySQL considers this particular query in terms of the overall cost of the query execution, and it is based on many factore like computer architecture.
+#
 
-7_BikeStoreDB_ASS2.sql
->
+`3_ModifiedQuery1.sql`
+> Analyze query cost. Create an initial query, to see it modified and improved computionally.
 
-8_ForeignKey_references.sql
->
+`4_ModifiedQuery2.sql`
+> Analyze query cost. Create an initial query, to see it modified and improved computionally.
 
-## TABLES (DATASETS)
+`5_ModifiedQuery3.sql`
+> Analyze query cost. Create an initial query, to see it modified and improved computionally.
+
+`6_ModifiedQuery4.sql`
+> Analyze query cost. Create an initial query, to see it modified and improved computionally.
+
+## /DATA
 
 Database is builded from the following tables:
 
@@ -82,16 +86,17 @@ EER diagrams provide a visual representation of the relationships among the tabl
 
 ## LOGIC MODEL
 
-Once the conceptual phase has been completed, and the EER model validated, we proceed to the second phase: **logical** design. In this phase we begin to name the tables, the fields each table should contain, and link them together.
+A logical model establishes the structure of data elements and the relationships among them.
 
 | ENTITY | ATTRIBUTES | FOREIGN KEY |
-| `Brands` | :key: Brand ID <br> Brand Name | --- |
-| `Categories` | :key: Category ID <br> Category Name | --- |
-| `Customers` | :key: Customer ID <br> First Name <br> Last Name <br> Phone Number <br> E-mail <br> Street <br> City <br> State <br> Zip Code | --- |
-| `Order_items` | :key: (Order ID, Item ID) <br> Product ID <br> Quantity <br> List Price <br> Discount | Order ID (Ref. *Orders: Order ID*) <br> Product ID (Ref. *Products: Product ID*) |
-| `Orders` | :key: Order ID <br> Customer ID <br> Order Status <br> Order Date <br> Required Date <br> Shipped Date <br> Store ID <br> Staff ID | Customer ID (Ref. *Customers: Customer ID*) <br> Staff ID (Ref. *Staffs: Staff ID*) <br> Store ID (Ref. *Stores: Store ID*) |
-| `Products` | :key: Product ID <br> Product Name <br> Brand ID <br> Category ID <br> Model Year <br> List Price | Brand ID (Ref. *Brands: Brand ID*) <br> Category ID (Ref. *Categories: Category ID*) |
-| `Staffs` | :key: Staff ID <br> First Name <br> Last Name <br> E-mail <br> Phone Number <br> Active <br> Store ID <br> Manager ID | Store ID (Ref. *Stores: Store ID*) |
-| `Stocks` | :key: (Store_ID, Product ID) <br> Quantity | Store ID (Ref. *Stores: Store ID*) <br> Product ID (Ref. *Products: Product ID*) |
-| `Stores` | :key: Store ID <br> Store Name <br> Phone Number <br> E-mail <br> Street <br> City <br> State <br> Zip Code | --- |
+| --- | --- | --- |
+| `Brands` | :key: ***Brand ID*** <br> :small_blue_diamond: Brand Name | --- |
+| `Categories` | :key: ***Category ID*** <br> :small_blue_diamond: Category Name | --- |
+| `Customers` | :key: ***Customer ID*** <br> :small_blue_diamond: First Name <br> :small_blue_diamond: Last Name <br> :small_blue_diamond: Phone Number <br> :small_blue_diamond: E-mail <br> :small_blue_diamond: Street <br> :small_blue_diamond: City <br> :small_blue_diamond: State <br> :small_blue_diamond: Zip Code | --- |
+| `Order_items` | :key: (***Order ID***, ***Item ID***) <br> :small_blue_diamond: Product ID <br> :small_blue_diamond: Quantity <br> :small_blue_diamond: List Price <br> :small_blue_diamond: Discount | :link: Order ID (Ref. *`Orders`: Order ID*) <br> :link: Product ID (Ref. *`Products`: Product ID*) |
+| `Orders` | :key: ***Order ID*** <br> :small_blue_diamond: Customer ID <br> :small_blue_diamond: Order Status <br> :small_blue_diamond: Order Date <br> :small_blue_diamond: Required Date <br> :small_blue_diamond: Shipped Date <br> :small_blue_diamond: Store ID <br> :small_blue_diamond: Staff ID | :link: Customer ID (Ref. *`Customers`: Customer ID*) <br> :link: Staff ID (Ref. *`Staffs`: Staff ID*) <br> :link: Store ID (Ref. *`Stores`: Store ID*) |
+| `Products` | :key: ***Product ID*** <br> :small_blue_diamond: Product Name <br> :small_blue_diamond: Brand ID <br> :small_blue_diamond: Category ID <br> :small_blue_diamond: Model Year <br> :small_blue_diamond: List Price | :link: Brand ID (Ref. *`Brands`: Brand ID*) <br> :link: Category ID (Ref. *`Categories`: Category ID*) |
+| `Staffs` | :key: ***Staff ID*** <br> :small_blue_diamond: First Name <br> :small_blue_diamond: Last Name <br> :small_blue_diamond: E-mail <br> :small_blue_diamond: Phone Number <br> :small_blue_diamond: Active <br> :small_blue_diamond: Store ID <br> :small_blue_diamond: Manager ID | :link: Store ID (Ref. *`Stores`: Store ID*) |
+| `Stocks` | :key: (***Store_ID***, ***Product ID***) <br> :small_blue_diamond: Quantity | :link: Store ID (Ref. *Stores: Store ID*) <br> :link: Product ID (Ref. *`Products`: Product ID*) |
+| `Stores` | :key: ***Store ID*** <br> :small_blue_diamond: Store Name <br> :small_blue_diamond: Phone Number <br> :small_blue_diamond: E-mail <br> :small_blue_diamond: Street <br> :small_blue_diamond: City <br> :small_blue_diamond: State <br> :small_blue_diamond: Zip Code | --- |
 

@@ -1,11 +1,6 @@
-# BikeStoreDB
+# Bike Store Database :bike: :department_store:
 
-Sample database for a retail bike store. Learning SQL and practicing querying relational databases.
-
-Database diagram:
-![inbox-4146319-c5838eb006bab3938ad94de02f58c6c1-SQL-Server-Sample-Database](https://github.com/pltommasino/BikeStoreDB/assets/123829470/8c0f4ca1-773f-45cd-8a2e-b2bd71fbe369)
-
-## 0. Intro
+## INTRO
 
 This project was carried out by Group 42 of Data Management for Data Science, consisting of:
 
@@ -14,7 +9,39 @@ This project was carried out by Group 42 of Data Management for Data Science, co
 | Pasquale Luca Tommasino | 1912107 | tommasino.1912107@studenti.uniroma1.it | 
 | Francesco Proietti | 1873188 | proietti.1873188@studenti.uniroma1.it |
 
-## 1. Data
+The purpose of our project was to develop a database that would track sales and production of bike stores in America.
+
+## SCRIPT
+
+Our work is divided into 9 files:
+0_FileStart.sql
+> 
+
+1_BikeStoreDB_ASS1.sql
+>
+
+2_Queries_ASS1.sql
+>
+
+3_ModifiedQuery1.sql
+>
+
+4_ModifiedQuery2.sql
+>
+
+5_ModifiedQuery3.sql
+>
+
+6_ModifiedQuery4.sql
+>
+
+7_BikeStoreDB_ASS2.sql
+>
+
+8_ForeignKey_references.sql
+>
+
+## TABLES (DATASETS)
 
 Database is builded from the following tables:
 
@@ -44,4 +71,27 @@ Database is builded from the following tables:
 
 9. Stores
 > The stores table includes the store’s information. Each store has a store name, contact information such as phone and email, and an address including street, city, state, and zip code.
+
+
+## EER DIAGRAM
+
+EER diagrams provide a visual representation of the relationships among the tables (entity) in the model. The image below represent our database.
+
+<img width="965" alt="EER-Diagram" src="https://github.com/pltommasino/BikeStoreDB/assets/123829470/3dd91575-e802-4b88-a5e6-69b43266d9fe">
+
+
+## LOGIC MODEL
+
+Once the conceptual phase has been completed, and the EER model validated, we proceed to the second phase: **logical** design. In this phase we begin to name the tables, the fields each table should contain, and link them together.
+
+| ENTITY | ATTRIBUTES | FOREIGN KEY |
+| `Brands` | :key: Brand ID <br> Brand Name | --- |
+| `Categories` | :key: Category ID <br> Category Name | --- |
+| `Customers` | :key: Customer ID <br> First Name <br> Last Name <br> Phone Number <br> E-mail <br> Street <br> City <br> State <br> Zip Code | --- |
+| `Order_items` | :key: (Order ID, Item ID) <br> Product ID <br> Quantity <br> List Price <br> Discount | Order ID (Ref. *Orders: Order ID*) <br> Product ID (Ref. *Products: Product ID*) |
+| `Orders` | :key: Order ID <br> Customer ID <br> Order Status <br> Order Date <br> Required Date <br> Shipped Date <br> Store ID <br> Staff ID | Customer ID (Ref. *Customers: Customer ID*) <br> Staff ID (Ref. *Staffs: Staff ID*) <br> Store ID (Ref. *Stores: Store ID*) |
+| `Products` | :key: Product ID <br> Product Name <br> Brand ID <br> Category ID <br> Model Year <br> List Price | Brand ID (Ref. *Brands: Brand ID*) <br> Category ID (Ref. *Categories: Category ID*) |
+| `Staffs` | :key: Staff ID <br> First Name <br> Last Name <br> E-mail <br> Phone Number <br> Active <br> Store ID <br> Manager ID | Store ID (Ref. *Stores: Store ID*) |
+| `Stocks` | :key: (Store_ID, Product ID) <br> Quantity | Store ID (Ref. *Stores: Store ID*) <br> Product ID (Ref. *Products: Product ID*) |
+| `Stores` | :key: Store ID <br> Store Name <br> Phone Number <br> E-mail <br> Street <br> City <br> State <br> Zip Code | --- |
 

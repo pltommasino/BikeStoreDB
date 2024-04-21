@@ -3,6 +3,3 @@ SET GLOBAL local_infile=1;
 
 #Set this variable for null data
 SET @@global.sql_mode='';
-
-#Use Bike Store Database
-USE BikeStoreDB;

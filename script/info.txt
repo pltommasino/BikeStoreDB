@@ -1,0 +1,4 @@
+This project was carried out by Group 42 of Data Management for Data Science, consisting of:
+
+- Pasquale Luca Tommasino, 1912107, tommasino.1912107@studenti.uniroma1.it
+- Francesco Proietti, 1873188, proietti.1873188@studenti.uniroma1.it

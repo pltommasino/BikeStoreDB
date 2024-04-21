@@ -2,3 +2,16 @@ This project was carried out by Group 42 of Data Management for Data Science, co
 
 - Pasquale Luca Tommasino, 1912107, tommasino.1912107@studenti.uniroma1.it
 - Francesco Proietti, 1873188, proietti.1873188@studenti.uniroma1.it
+
+In this folder, we have attached 4 files:
+- 1_Initial_Database.sql
+    The SQL code that we have used to create the schema of our initial database (only create tables);
+
+- 2_Queries.sql
+    The SQL code of the queries (with explanation);
+
+- 3_Modified_Queris.sql
+    The SQL code used for query optimization for HW2.
+
+- 4_Final_Database.sql
+    The SQL code that we have used to create the schema of our final database (create tables, primary keys and costraint foreign key)

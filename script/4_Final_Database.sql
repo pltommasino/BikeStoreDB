@@ -70,7 +70,8 @@ Product_name VARCHAR(60) NOT NULL,
 Brand_ID INT,
 Category_ID INT,
 Model_year INT,
-List_price FLOAT
+List_price FLOAT,
+INDEX (Category_ID)
 );
 
 #Creating Staffs table

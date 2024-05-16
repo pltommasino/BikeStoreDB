@@ -9,6 +9,26 @@ The purpose of this project was to develop a database that would track sales and
 | Pasquale Luca Tommasino | 1912107 | tommasino.1912107@studenti.uniroma1.it | 
 | Francesco Proietti | 1873188 | proietti.1873188@studenti.uniroma1.it |
 
+## SCRIPT
+
+For the planned delivery, the project required only the following 4 files:
+
+`1_Initial_Database.sql`
+> Create the first version of database (limite ourselves to very simple tables to create a comparison with the queries we will see later).
+
+`2_Queries.sql`
+> The SQL code of the first 6 queries (with explanation);
+
+`3_Modified_Queris.sql`
+> The SQL code of the last 4 queries (with explanation), doing a cost analysis, and creating for each, its own best version;
+
+`4_Final_Database.sql`
+> The SQL code that we have used to create the schema of our final database (create tables, primary keys and costraint foreign key)
+
+
+But for proper replication of what we have done, we recommend that first running the `0_FileStart.sql` file first, and only after running the above mentioned files (in order), load the last file, `5_Load_Data.sql`. Very simply, the files have a starting number in the name, do the run of the files in ascending order.
+
+
 ## EER DIAGRAM
 
 EER diagrams provide a visual representation of the relationships among the tables (entity) in the model. The image below represent our database.
@@ -32,41 +52,6 @@ A logical model establishes the structure of data elements and the relationships
 | `Stocks` | :key: (***Store_ID***, ***Product ID***) <br> :small_blue_diamond: Quantity | :link: Store ID (Ref. *Stores: Store ID*) <br> :link: Product ID (Ref. *`Products`: Product ID*) |
 | `Stores` | :key: ***Store ID*** <br> :small_blue_diamond: Store Name <br> :small_blue_diamond: Phone Number <br> :small_blue_diamond: E-mail <br> :small_blue_diamond: Street <br> :small_blue_diamond: City <br> :small_blue_diamond: State <br> :small_blue_diamond: Zip Code | --- |
 
-## SCRIPT
-
-Our work is divided into 9 files:
-
-`0_FileStart.sql` 
-> Set variables for load data and null value in data
-
-`1_BikeStoreDB_ASS1.sql`
-> Create the first version of database (limite ourselves to very simple tables to create a comparison with the queries we will see later).
-
-`2_Queries_ASS1.sql`
-> Create six queries to analyze data
-
-`7_BikeStoreDB_ASS2.sql`
-> Create the modified version of database (full completed)
-
-`8_ForeignKey_references.sql`
-> Create table relation 
-
-#
-> [!IMPORTANT]
-> For these files (3 to 6, listed below), it is important to run file 1 first to create the database without primary keys and relation between tables with foreign key, for analyze the query cost. We analyze with the *query_cost* in the *EXPLAIN format=JSON* section, the cost of the query, having unfortunately a not too big database, and the execution time is really small. Query cost refers to how expensive MySQL considers this particular query in terms of the overall cost of the query execution, and it is based on many factore like computer architecture.
-#
-
-`3_ModifiedQuery1.sql`
-> Analyze query cost. Create an initial query, to see it modified and improved computionally.
-
-`4_ModifiedQuery2.sql`
-> Analyze query cost. Create an initial query, to see it modified and improved computionally.
-
-`5_ModifiedQuery3.sql`
-> Analyze query cost. Create an initial query, to see it modified and improved computionally.
-
-`6_ModifiedQuery4.sql`
-> Analyze query cost. Create an initial query, to see it modified and improved computionally.
 
 ## DATA
 
